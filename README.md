@@ -1,3 +1,31 @@
+Fork ReadMe
+===
+This is a fork of Vueditor by +v
+
+## Added
+
+- Added props 'content' to set default content of editor.
+- Added @changed emit event to get content changed.
+
+```html
+<vueditor :content="content" @changed="getVal"></vueditor>
+```
+
+```javascript
+export default {
+    data () {
+      return {
+        content: 'I am default content'
+      }
+    },
+    methods: {
+      getVal: function (newVal) {
+        console.log(newVal)
+      }
+    }
+  }
+```
+
 Vueditor
 ===
 
