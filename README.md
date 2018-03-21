@@ -4,6 +4,10 @@ ver 0.3.13
 
 This is a fork of Vueditor by +v
 
+## Install
+
+> npm i --save vueditor-fork
+
 ## Added
 
 - Added props 'content' to set default content of editor.
