@@ -1,11 +1,28 @@
 Fork ReadMe
 ===
+ver 0.3.13
+
 This is a fork of Vueditor by +v
 
 ## Added
 
 - Added props 'content' to set default content of editor.
 - Added @changed emit event to get content changed.
+
+## Modify
+- Modified export way to fix bug of built double Vue or Vuex in vendor.js
+
+```main.js
+import Vue from 'vue'
+import Vuex from 'vuex'
+// css style
+import 'vueditor-fork/dist/style/vueditor.min.css'
+// core
+import vueditor from 'vueditor-fork'
+Vue.use(vueditor, Vuex, { // import Vuex here
+    // config
+})
+```
 
 ```html
 <vueditor :content="content" @changed="getVal"></vueditor>
