@@ -2,7 +2,7 @@
 <template>
   <div class="vueditor" :id="config.id" :class="[{'ve-fullscreen': fullscreen}].concat(config.classList)">
     <ve-toolbar></ve-toolbar>
-    <ve-design></ve-design>
+    <ve-design :defaultContent="content" @changed="emitContent"></ve-design>
     <template v-for="item in list">
       <component v-if="config.toolbar.indexOf(item) !== -1" :tagName="item" :is="'ve-' + item.toLowerCase()"></component>
     </template>
@@ -51,12 +51,18 @@
         return this.$store.state.fullscreen
       }
     },
+    // load default set of content, +v
+    props: ['content'],
     methods: {
       setContent (content) {
         this.$store.dispatch('updateContent', content)
       },
       getContent () {
         return this.$store.state.content
+      },
+      // $emit new content, +v
+      emitContent (content) {
+        this.$emit('changed', content)
       }
     }
   }
