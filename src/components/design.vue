@@ -23,6 +23,12 @@
       }
     },
 
+    // set default content if exisit
+    props: ['defaultContent'],
+    created () {
+      this.defaultContent && this.setContent(this.defaultContent)
+    },
+
     computed: mapState({
       view: 'view',
       content: 'content',
@@ -38,12 +44,8 @@
         }
       },
       'content': function (val) {
-        if (this.inited) {
-          this.iframeBody.innerHTML !== val && (this.iframeBody.innerHTML = val)
-          this.view === 'design' && this.updateStates()
-        } else {
-          this.cache = val
-        }
+        // moved to setContent, +v
+        this.setContent(val)
       },
       'command': function (data) {
         this.exec(data.name, data.value)
@@ -71,7 +73,21 @@
         this.iframeDoc.head.insertAdjacentHTML('beforeEnd', '<style>pre {margin: 0; padding: 0.5rem; background: #f5f2f0;}</style>')
         this.addEvent()
       },
-
+      // set content
+      setContent (val) {
+        if (this.inited) {
+          this.iframeBody.innerHTML !== val && (this.iframeBody.innerHTML = val)
+          this.view === 'design' && this.updateStates()
+          // +v
+          this.emitContent(val)
+        } else {
+          this.cache = val
+        }
+      },
+      // $emit content, +v
+      emitContent () {
+        this.$emit('changed', this.content)
+      },
       // init, selection change
       updateStates () {
         let json = {}
