@@ -1,7 +1,3 @@
-
-import Vue from 'vue'
-import Vuex from 'vuex'
-
 import { setLang, getDefaultLang } from './config/lang.js'
 import { resetToolbar, modifyToolbar } from './config/toolbar.js'
 import { setConfig, getDefaultConf } from './config/index.js'
@@ -50,7 +46,7 @@ function checkConfig (config) {
   return retData
 }
 
-function mixinConfig (opts) {
+function mixinConfig (vuex, opts) {
   let defaultConf = getDefaultConf()
   let config = opts ? Object.assign({}, defaultConf, opts) : defaultConf
   let lang = config.lang || getDefaultLang()
@@ -78,7 +74,7 @@ function mixinConfig (opts) {
   setLang(lang)
 
   return Object.assign({}, app, {
-    store: new Vuex.Store(createStore()),
+    store: new vuex.Store(createStore()),
     data: function () {
       return {
         list,
@@ -88,16 +84,6 @@ function mixinConfig (opts) {
   })
 }
 
-const install = function (Vue, opts) {
-  Vue.component('Vueditor', mixinConfig(opts))
-}
-
-const createEditor = function (el, opts) {
-  let Editor = Vue.extend(mixinConfig(opts))
-  return new Editor().$mount(el)
-}
-
-export default {
-  install,
-  createEditor
+export default function (Vue, Vuex, opts) {
+  Vue.component('Vueditor', mixinConfig(Vuex, opts))
 }
